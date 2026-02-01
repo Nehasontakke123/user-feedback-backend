@@ -1,58 +1,86 @@
 # User Feedback Form API
 
-A simple backend API to manage users, forms, and feedback submissions using MySQL + MongoDB.
+A backend API for managing users, forms, and feedback submissions.  
+This project demonstrates CRUD operations, multi-database handling, Prisma ORM usage, and production deployment.
 
-Tech Stack
+---
 
-Node.js + TypeScript
+## 🔗 Project Links
 
-Express.js
+- **GitHub Repository**  
+  https://github.com/Nehasontakke123/user-feedback-backend
 
-MySQL (Prisma ORM)
+- **Live API (Railway Deployment)**  
+  https://user-feedback-backend-production.up.railway.app
 
-MongoDB (Mongoose)
+---
 
-Postman for API testing
+## 🎯 Tech Stack
 
-Database Design
-MySQL (Prisma)
+- Node.js + TypeScript
+- Express.js
+- MySQL (Prisma ORM – structured data)
+- MongoDB (Mongoose – dynamic data)
+- Postman (API testing)
+- Railway (Deployment)
 
-Stores structured data:
+---
 
-Users
+## 🗄️ Database Design
 
-Forms (title, description, createdBy)
+### MySQL (via Prisma)
+Stores **structured data**:
+- Users
+- Forms (title, description, createdBy)
 
-MongoDB
+### MongoDB
+Stores **dynamic / unstructured data**:
+- Form submissions
+- Answers
+- Timestamps / metadata
 
-Stores dynamic/unstructured data:
+**Design Principle:**  
+Structured data → MySQL  
+Dynamic data → MongoDB
 
-Form submissions (answers, timestamps)
+---
 
-API Endpoints
-1. Create User
+## 🌍 Base URLs
 
-POST /users
+### Local
+http://localhost:5001
 
+
+### Production
+https://user-feedback-backend-production.up.railway.app
+
+
+---
+
+## 🔧 API Endpoints (CRUD)
+
+### 1️⃣ Create User
+**POST /users**
+
+```http
+POST http://localhost:5001/users
 {
-  "name": "Alice",
-  "email": "alice@example.com"
+  "name": "Monika",
+  "email": "monika@test.com"
 }
-
-2. Create Form
-
+2️⃣ Create Form
 POST /forms
 
+POST http://localhost:5001/forms
 {
   "title": "Product Feedback",
-  "description": "Collect feedback",
+  "description": "Collect feedback about product quality and usability",
   "createdBy": 1
 }
-
-3. Submit Form
-
+3️⃣ Submit Form
 POST /submissions
 
+POST http://localhost:5001/submissions
 {
   "userId": 1,
   "formId": 1,
@@ -61,34 +89,52 @@ POST /submissions
     "comment": "Nice app"
   }
 }
+Data is saved in MongoDB with references to userId and formId.
 
-4. Get Submissions
+4️⃣ Get Submissions (with filters)
+GET /submissions
 
-GET /submissions?userId=1&formId=1&date=2026-02-01
+GET http://localhost:5001/submissions
+GET http://localhost:5001/submissions?userId=1
+GET http://localhost:5001/submissions?formId=1
+GET http://localhost:5001/submissions?userId=1&formId=1
+GET http://localhost:5001/submissions?date=2026-02-01
+GET http://localhost:5001/submissions?userId=1&formId=1&date=2026-02-01
+Response includes:
 
-Returns:
+Submission data from MongoDB
 
-Submissions from MongoDB
+Related User & Form data from MySQL
 
-Related user and form data from MySQL
+Cross-database join handled at application level
 
-5. Delete Submission
-
+5️⃣ Delete Submission
 DELETE /submissions/:id
 
-How to Run Locally
+DELETE http://localhost:5001/submissions/65c9f8e2a1b23a9d9f0e1234
+▶️ How to Run Locally
 npm install
 npx prisma migrate dev
 bun run dev
-
-Server will run on:
+Server runs at:
 
 http://localhost:5001
+📝 Notes
+Prisma ORM is used only for MySQL
 
-Notes
+MongoDB is used for flexible submission storage
 
-Prisma is used only for MySQL
+Cross-database joins are handled in the service layer
 
-MongoDB is used for flexible submission data
+Environment variables are used for database connections
 
-Cross-database joins are handled at application level
+Production uses compiled JavaScript (dist/)
+
+📦 Submission Includes
+GitHub Repository
+
+Live API URL (Railway)
+
+Postman Collection
+
+README documentation
