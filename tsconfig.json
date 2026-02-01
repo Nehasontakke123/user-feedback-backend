@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "target": "es2016",
+    "module": "esnext",
+    "outDir": "./dist",
+    "rootDir": "./src"
+  }
+}
